@@ -1,6 +1,6 @@
 {
   "name": "silicon-laravel-echo",
-  "version": "1.6.7",
+  "version": "1.6.8",
   "description": "Laravel Echo library for beautiful Pusher and Socket.IO integration",
   "keywords": [
     "laravel",
