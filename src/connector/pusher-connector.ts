@@ -107,8 +107,10 @@ export class PusherConnector extends Connector {
     leave(name: string): void {
         var channels = [name, "private-" + name, "presence-" + name];
 
+        var self = this;
+
         channels.forEach(function (name: string, index: number) {
-            this.leaveChannel(name);
+            self.leaveChannel(name);
         });
     }
 
