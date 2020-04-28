@@ -141,7 +141,7 @@ export default class Echo {
      */
     registerAxiosRequestInterceptor(): any {
         axios.interceptors.request.use(function (config) {
-            if (this.socketId()) {
+            if (this && this.socketId()) {
                 config.headers["X-Socket-Id"] = this.socketId();
             }
 
