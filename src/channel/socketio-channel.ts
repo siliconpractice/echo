@@ -91,7 +91,7 @@ export class SocketIoChannel extends Channel {
      * Bind the channel's socket to an event and store the callback.
      */
     on(event: string, callback: Function): void {
-        var listener = (channel, data) => {
+        var listener = function (channel, data) {
             if (this.name == channel) {
                 callback(data);
             }
@@ -125,7 +125,7 @@ export class SocketIoChannel extends Channel {
      * Unbind the channel's socket from all stored event callbacks.
      */
     unbind(): void {
-        Object.keys(this.events).forEach((event) => {
+        Object.keys(this.events).forEach(function (event) {
             this.events[event].forEach(function (callback) {
                 this.socket.removeListener(event, callback);
             });

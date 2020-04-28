@@ -1,5 +1,5 @@
-import { Channel, PresenceChannel } from './channel';
-import { PusherConnector, SocketIoConnector, NullConnector } from './connector';
+import { Channel, PresenceChannel } from "./channel";
+import { PusherConnector, SocketIoConnector, NullConnector } from "./connector";
 
 /**
  * This class is the primary API for interacting with broadcasting.
@@ -38,13 +38,13 @@ export default class Echo {
      * Create a new connection.
      */
     connect(): void {
-        if (this.options.broadcaster == 'pusher') {
+        if (this.options.broadcaster == "pusher") {
             this.connector = new PusherConnector(this.options);
-        } else if (this.options.broadcaster == 'socket.io') {
+        } else if (this.options.broadcaster == "socket.io") {
             this.connector = new SocketIoConnector(this.options);
-        } else if (this.options.broadcaster == 'null') {
+        } else if (this.options.broadcaster == "null") {
             this.connector = new NullConnector(this.options);
-        } else if (typeof this.options.broadcaster == 'function') {
+        } else if (typeof this.options.broadcaster == "function") {
             this.connector = new this.options.broadcaster(this.options);
         }
     }
@@ -110,15 +110,15 @@ export default class Echo {
      * send a connections socket id to a Laravel app with a X-Socket-Id header.
      */
     registerInterceptors(): void {
-        if (typeof Vue === 'function' && Vue.http) {
+        if (typeof Vue === "function" && Vue.http) {
             this.registerVueRequestInterceptor();
         }
 
-        if (typeof axios === 'function') {
+        if (typeof axios === "function") {
             this.registerAxiosRequestInterceptor();
         }
 
-        if (typeof jQuery === 'function') {
+        if (typeof jQuery === "function") {
             this.registerjQueryAjaxSetup();
         }
     }
@@ -127,9 +127,9 @@ export default class Echo {
      * Register a Vue HTTP interceptor to add the X-Socket-ID header.
      */
     registerVueRequestInterceptor(): void {
-        Vue.http.interceptors.push((request, next) => {
+        Vue.http.interceptors.push(function (request, next) {
             if (this.socketId()) {
-                request.headers.set('X-Socket-ID', this.socketId());
+                request.headers.set("X-Socket-ID", this.socketId());
             }
 
             next();
@@ -140,9 +140,9 @@ export default class Echo {
      * Register an Axios HTTP interceptor to add the X-Socket-ID header.
      */
     registerAxiosRequestInterceptor(): any {
-        axios.interceptors.request.use((config) => {
+        axios.interceptors.request.use(function (config) {
             if (this.socketId()) {
-                config.headers['X-Socket-Id'] = this.socketId();
+                config.headers["X-Socket-Id"] = this.socketId();
             }
 
             return config;
@@ -153,10 +153,10 @@ export default class Echo {
      * Register jQuery AjaxPrefilter to add the X-Socket-ID header.
      */
     registerjQueryAjaxSetup(): void {
-        if (typeof jQuery.ajax != 'undefined') {
-            jQuery.ajaxPrefilter((options, originalOptions, xhr) => {
+        if (typeof jQuery.ajax != "undefined") {
+            jQuery.ajaxPrefilter(function (options, originalOptions, xhr) {
                 if (this.socketId()) {
-                    xhr.setRequestHeader('X-Socket-Id', this.socketId());
+                    xhr.setRequestHeader("X-Socket-Id", this.socketId());
                 }
             });
         }
