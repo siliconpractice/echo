@@ -1,5 +1,5 @@
-import { EventFormatter } from './../util';
-import { Channel } from './channel';
+import { EventFormatter } from "./../util";
+import { Channel } from "./channel";
 
 /**
  * This class represents a Socket.io channel.
@@ -49,7 +49,7 @@ export class SocketIoChannel extends Channel {
      * Subscribe to a Socket.io channel.
      */
     subscribe(): void {
-        this.socket.emit('subscribe', {
+        this.socket.emit("subscribe", {
             channel: this.name,
             auth: this.options.auth || {},
         });
@@ -61,7 +61,7 @@ export class SocketIoChannel extends Channel {
     unsubscribe(): void {
         this.unbind();
 
-        this.socket.emit('unsubscribe', {
+        this.socket.emit("unsubscribe", {
             channel: this.name,
             auth: this.options.auth || {},
         });
@@ -80,7 +80,7 @@ export class SocketIoChannel extends Channel {
      * Stop listening for an event on the channel instance.
      */
     stopListening(event: string): SocketIoChannel {
-        const name = this.eventFormatter.format(event);
+        var name = this.eventFormatter.format(event);
         this.socket.removeListener(name);
         delete this.events[name];
 
@@ -91,7 +91,7 @@ export class SocketIoChannel extends Channel {
      * Bind the channel's socket to an event and store the callback.
      */
     on(event: string, callback: Function): void {
-        let listener = (channel, data) => {
+        var listener = (channel, data) => {
             if (this.name == channel) {
                 callback(data);
             }
@@ -105,12 +105,12 @@ export class SocketIoChannel extends Channel {
      * Attach a 'reconnect' listener and bind the event.
      */
     configureReconnector(): void {
-        const listener = () => {
+        var listener = function () {
             this.subscribe();
         };
 
-        this.socket.on('reconnect', listener);
-        this.bind('reconnect', listener);
+        this.socket.on("reconnect", listener);
+        this.bind("reconnect", listener);
     }
 
     /**
@@ -126,7 +126,7 @@ export class SocketIoChannel extends Channel {
      */
     unbind(): void {
         Object.keys(this.events).forEach((event) => {
-            this.events[event].forEach((callback) => {
+            this.events[event].forEach(function (callback) {
                 this.socket.removeListener(event, callback);
             });
 
