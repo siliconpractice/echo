@@ -30,8 +30,8 @@ export default class Echo {
     /**
      * Get a channel instance by name.
      */
-    channel(channel: string): Channel {
-        return this.connector.channel(channel);
+    channel(channelToConnect: string): Channel {
+        return this.connector.channel(channelToConnect);
     }
 
     /**
