@@ -140,9 +140,10 @@ export default class Echo {
      * Register an Axios HTTP interceptor to add the X-Socket-ID header.
      */
     registerAxiosRequestInterceptor(): any {
+        var self = this;
         axios.interceptors.request.use(function (config) {
-            if (this.socketId()) {
-                config.headers["X-Socket-Id"] = this.socketId();
+            if (self.socketId()) {
+                config.headers["X-Socket-Id"] = self.socketId();
             }
 
             return config;
